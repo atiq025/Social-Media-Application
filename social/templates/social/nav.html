@@ -1,0 +1,43 @@
+<nav class="bg-white shadow-lg">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="flex justify-between">
+            <!-- Left Navigation Links -->
+            <div class="flex space-x-7">
+                <div>
+                    <a href="{% url 'home' %}" class="flex items-center py-4">
+                        <span class="font-semibold text-gray-500 text-lg">Home</span>
+                    </a>
+                </div>
+                {% if user.is_authenticated %}
+                <div>
+                    <a href="{% url 'profile' %}" class="flex items-center py-4">
+                        <span class="font-semibold text-gray-500 text-lg">Profile</span>
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Right Navigation Links -->
+            <div class="flex space-x-7">
+                {% if user.is_authenticated %}
+                <div>
+                    <a href="{% url 'logout' %}" class="flex items-center py-4 text-red-600 hover:text-red-800">
+                        <span class="font-semibold text-lg">Logout</span>
+                    </a>
+                </div>
+                {% else %}
+                <div>
+                    <a href="{% url 'login' %}" class="flex items-center py-4 text-blue-600 hover:text-blue-800">
+                        <span class="font-semibold text-lg">Login</span>
+                    </a>
+                </div>
+                <div>
+                    <a href="{% url 'register' %}" class="flex items-center py-4 text-green-600 hover:text-green-800">
+                        <span class="font-semibold text-lg">Registration</span>
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>
