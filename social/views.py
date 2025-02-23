@@ -5,6 +5,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from .forms import PostForm, UserRegistrationForm
 from .models import Post
+from django.db.models import Q
+
 
 # Registration View
 def register(request):
@@ -43,13 +45,37 @@ def logout_view(request):
 
 # Homepage (Global Feed)
 def home(request):
-    posts = Post.objects.all().order_by("-created_at")
+    posts = Post.objects.all()
+
+    search_query = request.GET.get("search", "")
+    filter_media = request.GET.get("filter_media", "")
+    sort_option = request.GET.get("sort", "-created_at")
+
+    if search_query:
+        posts = posts.filter(Q(content__icontains=search_query))
+
+    if filter_media == "text":
+        posts = posts.filter(image__isnull=True, content__isnull=False).exclude(content="")
+    elif filter_media == "image":
+        posts = posts.filter(image__isnull=False)
+
+    posts = posts.order_by(sort_option)
+
     return render(request, "social/home.html", {"posts": posts})
 
 # Profile Page
 @login_required
 def profile(request):
-    posts = request.user.posts.all().order_by("-created_at")
+    posts = request.user.posts.all()
+
+    search_query = request.GET.get("search", "")
+    sort_option = request.GET.get("sort", "-created_at")
+
+    if search_query:
+        posts = posts.filter(Q(content__icontains=search_query))
+
+    posts = posts.order_by(sort_option)
+
     return render(request, "social/profile.html", {"posts": posts})
 
 # Create Post
