@@ -29,8 +29,8 @@ Features
 3. Virtual environment setup (recommended)
 ## Installation Steps
 1. Clone the repository:
-```bash git clone 
-cd social_app
+```bash git clone https://github.com/atiq025/Social-Media-Application.git
+ cd social_app
 ``` 
 2. Create a virtual environment and activate it:
 ```bash
